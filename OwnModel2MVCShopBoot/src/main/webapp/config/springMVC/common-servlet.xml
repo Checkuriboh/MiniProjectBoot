@@ -16,22 +16,22 @@
     
     <!--  ㅇ 어노테이션 기반 :: Spring Framework 사용.
     		ㅇ @Controller annotation 선언된 Bean 만 Wiring
-		   	ㅇ @Service / @Repository  annotation 선언된 Bean 은 Scan 제외 -->
+		   	ㅇ @Service / @Repository  annotation 선언된 Bean 은 Scan 제외 --><!-- 
 	<context:component-scan base-package="com.model2.mvc.web">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" />
-	</context:component-scan>            
+	</context:component-scan>     -->        
 
       
    	<!-- ■ RequestMappingHandlerMapping 설정 등 기타 Annotation 기반
    	        모든 기능을 사용 할 수 있는 아래의 설정으로 변경 -->
-	<mvc:annotation-driven />
+	<!-- <mvc:annotation-driven /> -->
 	
 	<!-- ■ Annotation 기반의 모든 기능을 사용 할 수 있는 설정
 	          <mvc:annotation-driven /> 사용으로 interceptor 를 직접
 	          RequestMappingHandlerMapping 에 주입 할 수 없으니 
-	       	  아래의 설정방법으로 interceptor 주입 -->
+	       	  아래의 설정방법으로 interceptor 주입 --><!-- 
    	<mvc:interceptors>
 		
    		<mvc:interceptor>
@@ -40,7 +40,7 @@
    		</mvc:interceptor>
 
    	</mvc:interceptors>
-   	
+   	 -->
 		
 	<!--	
 		■ / 형식의 Mapping 은 모든(정적,동적 자원) 요청시 처리책임
@@ -57,10 +57,10 @@
    	
 
 	<!--  :: ViewResolver 선언 -->	
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" />
+    <!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" /> -->
     
     <!-- DispathcerSerlvet에서 multipart 파일 처리를 위한 Resolver -->
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+    <!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" /> -->
 
 	<!-- 	:: exception resolver  선언 :: 서술적 / 선언적 예외처리 
 			:: Servlet 에서의 선언적 예외처리를 다시 생각하며....  -->
