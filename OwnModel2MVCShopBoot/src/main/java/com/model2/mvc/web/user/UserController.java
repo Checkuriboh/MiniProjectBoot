@@ -96,12 +96,15 @@ public class UserController {
 	public String updateUser( @ModelAttribute("user") User user , HttpSession session) throws Exception {
 
 		System.out.println("/user/updateUser : POST");
+		
 		//Business Logic
 		userService.updateUser(user);
+		user = userService.getUser(user.getUserId());
+
+		User onUser = (User)session.getAttribute("user");
 		
-		User dbUser = (User)session.getAttribute("user");
-		if ( dbUser.getUserId().equals(user.getUserId()) ) {
-			session.setAttribute("user", dbUser);
+		if ( onUser.getUserId().equals(user.getUserId()) ) {
+			session.setAttribute("user", user);
 		}
 		
 		//return "redirect:/getUser.do?userId=" + user.getUserId();
