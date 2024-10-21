@@ -10,7 +10,7 @@ public class LogAspectJ {
 
 	/// Constructor
 	public LogAspectJ() {
-		System.out.println("\nCommon :: "+this.getClass()+"\n");
+		System.out.println("Common :: "+this.getClass());
 	}
 	
 	@Around("execution(* com.model2.mvc.service..*Impl.*(..) )") 

@@ -14,7 +14,7 @@ import com.model2.mvc.common.web.LogonCheckInterceptor;
 public class WebConfig implements WebMvcConfigurer {
 
 	public WebConfig() {
-		System.out.println("\nCommon :: "+this.getClass()+"\n");
+		System.out.println("Common :: "+this.getClass());
 	}
 
 	@Override
@@ -28,37 +28,5 @@ public class WebConfig implements WebMvcConfigurer {
     LogAspectJ loggingAspect() {
         return new LogAspectJ();
     }
-
-	// exception view resolve
-//	@Override
-//	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) 
-//	{
-//		resolvers.add(new HandlerExceptionResolver() {
-//			@Override
-//			public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
-//					Exception ex) {
-//
-//		        if (ex instanceof NullPointerException) {
-//		            ModelAndView modelAndView = new ModelAndView("/common/nullError.jsp");
-//		            modelAndView.addObject("message", "NullPointerException occurred");
-//		            return modelAndView;
-//		        } 
-//		        else if (ex instanceof NumberFormatException) {
-//		            ModelAndView modelAndView = new ModelAndView("/common/numberFormatError.jsp");
-//		            modelAndView.addObject("message", "NumberFormatException occurred");
-//		            return modelAndView;
-//		        }
-//		        ModelAndView modelAndView = new ModelAndView("/common/error.jsp");
-//		        modelAndView.addObject("message", "An unexpected error occurred");
-//		        return modelAndView;
-//			}
-//		});
-//	}
-//
-//	@Override
-//	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-//		// 예외 처리기를 새로 설정, Spring 기본 예외 처리기는 사용되지 않음
-//		//WebMvcConfigurer.super.configureHandlerExceptionResolvers(resolvers);
-//	}
 	
 }
