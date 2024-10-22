@@ -1,9 +1,6 @@
 package com.model2.mvc.web.product;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,7 +58,7 @@ public class ProductController {
 		System.out.println("/product/addProduct : POST");
 
 		// 업로드 된 파일 저장 + 파일 이름 설정
-		productService.saveProductFile(product, fileData);
+		productService.setProductFile(product, fileData);
 		// 상품 정보 추가 B/L 수행
 		productService.addProduct(product);
 
@@ -105,7 +102,7 @@ public class ProductController {
 
 		if ( !fileData.isEmpty() ) {
 			// 업로드 된 파일 저장 + 파일 이름 설정
-			productService.saveProductFile(product, fileData);
+			productService.setProductFile(product, fileData);
 		}
 		// 상품 정보 갱신 B/L 수행
 		productService.updateProduct(product);

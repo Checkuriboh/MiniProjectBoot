@@ -2,6 +2,8 @@ package com.model2.mvc.service.product;
 
 import java.util.Map;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.model2.mvc.common.Search;
@@ -18,6 +20,9 @@ public interface ProductService {
 
 		// void
 	public Product updateProduct(Product productVO) throws Exception;
+
+	public ResponseEntity<Resource> getProductFile(String fileName) throws Exception;
 	
-	public void saveProductFile(Product product, MultipartFile fileData) throws Exception;
+	public void setProductFile(Product product, MultipartFile fileData) throws Exception;
+	
 }
