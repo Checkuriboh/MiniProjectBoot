@@ -19,7 +19,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	///field
 	@Autowired
-	@Qualifier("purchaseDaoImpl")
+	//@Qualifier("purchaseDaoImpl")
 	private PurchaseDao purchaseDao;
 
 	
@@ -29,10 +29,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	
-	///setter
-	public void setPurchaseDao(PurchaseDao purchaseDao) {
-		this.purchaseDao = purchaseDao;
-	}
+//	///setter
+//	public void setPurchaseDao(PurchaseDao purchaseDao) {
+//		this.purchaseDao = purchaseDao;
+//	}
 
 
 	/// method

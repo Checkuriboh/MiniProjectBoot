@@ -2,9 +2,12 @@ package com.model2.mvc.service.purchase;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
 
+@Mapper
 public interface PurchaseDao {
 
 	public void addPurchase(Purchase purchase) throws Exception;

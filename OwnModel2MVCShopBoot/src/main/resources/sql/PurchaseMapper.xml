@@ -4,7 +4,8 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="PurchaseMapper">
+<!-- <mapper namespace="PurchaseMapper"> -->
+<mapper namespace="com.model2.mvc.service.purchase.PurchaseDao">
  	
 	<resultMap id="purchaseSelectMap" type="purchase">
 		<result property="tranNo" 			column="tran_no" 			jdbcType="NUMERIC" />
@@ -16,8 +17,8 @@
 		<result property="tranCode" 		column="tran_status_code" 	jdbcType="VARCHAR" />
 		<result property="orderDate" 		column="order_data" 		jdbcType="DATE" />
 		<result property="divyDate" 		column="dlvy_date"			jdbcType="DATE" />
-		<association property="purchaseProd" 	column="prod_no" 	select="ProductMapper.getProduct"/>
-		<association property="buyer" 			column="buyer_id" 	select="UserMapper.getUser"/>
+		<association property="purchaseProd" 	column="prod_no" 	select="com.model2.mvc.service.product.ProductDao.getProduct"/>
+		<association property="buyer" 			column="buyer_id" 	select="com.model2.mvc.service.user.UserDao.getUser"/>
 	</resultMap>
 
 	<!-- SQL : INSERT -->
