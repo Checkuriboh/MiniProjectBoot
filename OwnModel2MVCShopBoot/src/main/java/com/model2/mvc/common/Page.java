@@ -1,6 +1,14 @@
 package com.model2.mvc.common;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public class Page {
 	
 	///Field
@@ -13,9 +21,9 @@ public class Page {
 	private int endUnitPage;	// 화면에 보여지는 페이지 번호의 최대수
 	
 	
-	///Constructor
-	public Page() {
-	}
+//	///Constructor
+//	public Page() {
+//	}
 	
 	public Page(int currentPage, int totalCount, int pageUnit, int pageSize)
 	{
@@ -28,15 +36,13 @@ public class Page {
 		
 		this.beginUnitPage = ((currentPage-1) / pageUnit) * pageUnit + 1 ;
 		
-		if (maxPage <= pageUnit)
-		{
+		if (maxPage <= pageUnit) {
 			this.endUnitPage = maxPage;
 		}
 		else
 		{
 			this.endUnitPage = beginUnitPage + (pageUnit -1);
-			if (maxPage <= endUnitPage)
-			{
+			if (maxPage <= endUnitPage) {
 				this.endUnitPage = maxPage;
 			}
 		}
@@ -44,53 +50,54 @@ public class Page {
 	
 	
 	///Method
-	public int getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
-	public int getTotalCount() {
-		return totalCount;
-	}
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
-	}
-	public int getPageUnit() {
-		return pageUnit;
-	}
-	public void setPageUnit(int pageUnit) {
-		this.pageUnit = pageUnit;
-	}
-	public int getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-	public int getMaxPage() {
-		return maxPage;
-	}
-	public void setMaxPage(int maxPage) {
-		this.maxPage = maxPage;
-	}
-	public int getBeginUnitPage() {
-		return beginUnitPage;
-	}
-	public void setBeginUnitPage(int beginUnitPage) {
-		this.beginUnitPage = beginUnitPage;
-	}
-	public int getEndUnitPage() {
-		return endUnitPage;
-	}
-	public void setEndUnitPage(int endUnitPage) {
-		this.endUnitPage = endUnitPage;
-	}
-	@Override
-	public String toString() {
-		return "Page [currentPage=" + currentPage + ", totalCount="
-				+ totalCount + ", pageUnit=" + pageUnit + ", pageSize="
-				+ pageSize + ", maxPage=" + maxPage + ", beginUnitPage="
-				+ beginUnitPage + ", endUnitPage=" + endUnitPage + "]";
-	}
+//	public int getCurrentPage() {
+//		return currentPage;
+//	}
+//	public void setCurrentPage(int currentPage) {
+//		this.currentPage = currentPage;
+//	}
+//	public int getTotalCount() {
+//		return totalCount;
+//	}
+//	public void setTotalCount(int totalCount) {
+//		this.totalCount = totalCount;
+//	}
+//	public int getPageUnit() {
+//		return pageUnit;
+//	}
+//	public void setPageUnit(int pageUnit) {
+//		this.pageUnit = pageUnit;
+//	}
+//	public int getPageSize() {
+//		return pageSize;
+//	}
+//	public void setPageSize(int pageSize) {
+//		this.pageSize = pageSize;
+//	}
+//	public int getMaxPage() {
+//		return maxPage;
+//	}
+//	public void setMaxPage(int maxPage) {
+//		this.maxPage = maxPage;
+//	}
+//	public int getBeginUnitPage() {
+//		return beginUnitPage;
+//	}
+//	public void setBeginUnitPage(int beginUnitPage) {
+//		this.beginUnitPage = beginUnitPage;
+//	}
+//	public int getEndUnitPage() {
+//		return endUnitPage;
+//	}
+//	public void setEndUnitPage(int endUnitPage) {
+//		this.endUnitPage = endUnitPage;
+//	}
+//	@Override
+//	public String toString() {
+//		return "Page [currentPage=" + currentPage + ", totalCount="
+//				+ totalCount + ", pageUnit=" + pageUnit + ", pageSize="
+//				+ pageSize + ", maxPage=" + maxPage + ", beginUnitPage="
+//				+ beginUnitPage + ", endUnitPage=" + endUnitPage + "]";
+//	}
+	
 }

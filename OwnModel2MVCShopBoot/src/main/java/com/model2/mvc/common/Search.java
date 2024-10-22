@@ -1,7 +1,16 @@
 package com.model2.mvc.common;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-//==>리스트화면을 모델링(추상화/캡슐화)한 Bean 
+
+//==>리스트화면을 모델링(추상화/캡슐화)한 Bean
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public class Search {
 	
 	///Field
@@ -23,39 +32,39 @@ public class Search {
 	private String sortOrder;
 	
 	
-	///Constructor
-	public Search() {
-	}
+//	///Constructor
+//	public Search() {
+//	}
 	
 	
 	///Method
-	public int getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(int paseSize) {
-		this.pageSize = paseSize;
-	}
-	
-	public int getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
-
-	public String getSearchCondition() {
-		return searchCondition;
-	}
-	public void setSearchCondition(String searchCondition) {
-		this.searchCondition = searchCondition;
-	}
-	
-	public String getSearchKeyword() {
-		return searchKeyword;
-	}
-	public void setSearchKeyword(String searchKeyword) {
-		this.searchKeyword = searchKeyword;
-	}
+//	public int getPageSize() {
+//		return pageSize;
+//	}
+//	public void setPageSize(int paseSize) {
+//		this.pageSize = paseSize;
+//	}
+//	
+//	public int getCurrentPage() {
+//		return currentPage;
+//	}
+//	public void setCurrentPage(int currentPage) {
+//		this.currentPage = currentPage;
+//	}
+//
+//	public String getSearchCondition() {
+//		return searchCondition;
+//	}
+//	public void setSearchCondition(String searchCondition) {
+//		this.searchCondition = searchCondition;
+//	}
+//	
+//	public String getSearchKeyword() {
+//		return searchKeyword;
+//	}
+//	public void setSearchKeyword(String searchKeyword) {
+//		this.searchKeyword = searchKeyword;
+//	}
 	
 	//==> Select Query 시 ROWNUM 마지막 값 
 	public int getStartRowNum() {
@@ -66,55 +75,55 @@ public class Search {
 		return getCurrentPage()*getPageSize();
 	}
 
-	//==> 범위 검색용 Field get/set
-	public String getStartSearchRange() {
-		return startSearchRange;
-	}
-	public void setStartSearchRange(String startSearchRange) {
-		this.startSearchRange = startSearchRange;
-	}
-	public String getEndSearchRange() {
-		return endSearchRange;
-	}
-	public void setEndSearchRange(String endSearchRange) {
-		this.endSearchRange = endSearchRange;
-	}
+//	//==> 범위 검색용 Field get/set
+//	public String getStartSearchRange() {
+//		return startSearchRange;
+//	}
+//	public void setStartSearchRange(String startSearchRange) {
+//		this.startSearchRange = startSearchRange;
+//	}
+//	public String getEndSearchRange() {
+//		return endSearchRange;
+//	}
+//	public void setEndSearchRange(String endSearchRange) {
+//		this.endSearchRange = endSearchRange;
+//	}
+//
+//	//==> 목록 정렬용 Field get/set
+//	public String getSortColumn() {
+//		return sortColumn;
+//	}
+//	public void setSortColumn(String sortColumn) {
+//		this.sortColumn = sortColumn;
+//	}
+//	public String getSortOrder() {
+//		return sortOrder;
+//	}
+//	public void setSortOrder(String sortOrder) {
+//		this.sortOrder = sortOrder;
+//	}
 
-	//==> 목록 정렬용 Field get/set
-	public String getSortColumn() {
-		return sortColumn;
-	}
-	public void setSortColumn(String sortColumn) {
-		this.sortColumn = sortColumn;
-	}
-	public String getSortOrder() {
-		return sortOrder;
-	}
-	public void setSortOrder(String sortOrder) {
-		this.sortOrder = sortOrder;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Search [currentPage=");
-		builder.append(currentPage);
-		builder.append(", searchCondition=");
-		builder.append(searchCondition);
-		builder.append(", searchKeyword=");
-		builder.append(searchKeyword);
-		builder.append(", pageSize=");
-		builder.append(pageSize);
-		builder.append(", startRowNum=");
-		builder.append(startRowNum);
-		builder.append(", endRowNum=");
-		builder.append(endRowNum);
-		builder.append(", startSearchRange=");
-		builder.append(startSearchRange);
-		builder.append(", endSearchRange=");
-		builder.append(endSearchRange);
-		builder.append("]");
-		return builder.toString();
-	}
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("Search [currentPage=");
+//		builder.append(currentPage);
+//		builder.append(", searchCondition=");
+//		builder.append(searchCondition);
+//		builder.append(", searchKeyword=");
+//		builder.append(searchKeyword);
+//		builder.append(", pageSize=");
+//		builder.append(pageSize);
+//		builder.append(", startRowNum=");
+//		builder.append(startRowNum);
+//		builder.append(", endRowNum=");
+//		builder.append(endRowNum);
+//		builder.append(", startSearchRange=");
+//		builder.append(startSearchRange);
+//		builder.append(", endSearchRange=");
+//		builder.append(endSearchRange);
+//		builder.append("]");
+//		return builder.toString();
+//	}
 
 }
