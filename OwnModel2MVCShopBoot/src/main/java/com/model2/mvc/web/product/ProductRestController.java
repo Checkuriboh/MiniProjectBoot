@@ -11,9 +11,9 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.file.Files;
@@ -45,7 +45,7 @@ public class ProductRestController {
 	///Method
 	
 	//==> 상품번호를 받아 상품정보 검색 및 반환
-	@RequestMapping( value="json/getProduct/{prodNo}", method=RequestMethod.GET )
+	@GetMapping("json/getProduct/{prodNo}")
 	public Product getProduct( @PathVariable int prodNo ) throws Exception
 	{
 		System.out.println("/product/json/getProduct : GET");
@@ -54,7 +54,7 @@ public class ProductRestController {
 	}
 	
 	//==> <img src=""> 상품 이미지 반환
-	@RequestMapping( value="json/getImageFile/{fileName:.+}", method=RequestMethod.GET )
+	@GetMapping("json/getImageFile/{fileName:.+}")
 	public ResponseEntity<Resource> getImageFile( @PathVariable String fileName ) throws Exception
 	{
 		System.out.println("/product/json/getImageFile : GET");

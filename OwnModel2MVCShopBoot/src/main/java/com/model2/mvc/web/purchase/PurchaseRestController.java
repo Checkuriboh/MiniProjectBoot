@@ -2,11 +2,10 @@ package com.model2.mvc.web.purchase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.product.ProductService;
@@ -37,7 +36,7 @@ public class PurchaseRestController {
 	///Method
 	
 	//==> 구매번호를 받아 구매정보 검색 및 반환
-	@RequestMapping( value="json/getPurchase/{tranNo}", method=RequestMethod.GET )
+	@GetMapping("json/getPurchase/{tranNo}")
 	public Purchase getPurchase( @PathVariable int tranNo ) throws Exception
 	{
 		System.out.println("/purchase/json/getPurchase : GET");
@@ -46,9 +45,9 @@ public class PurchaseRestController {
 	}
 	
 	//==> 판매상태 수정 B/L 수행
-	@RequestMapping( value="json/updateTranCode/{tranCode}/{tranNo}", method=RequestMethod.GET )
-	public boolean updateTranCode( 	@PathVariable String tranCode ,
-									@PathVariable int tranNo ) throws Exception
+	@GetMapping("json/updateTranCode/{tranCode}/{tranNo}")
+	public boolean updateTranCode( @PathVariable String tranCode ,
+								   @PathVariable int tranNo ) throws Exception
 	{
 		System.out.println("/purchase/json/updateTranCode : GET");
 
@@ -66,9 +65,9 @@ public class PurchaseRestController {
 	}
 
 	//==> 판매상태 수정 B/L 수행 (상품정보에서 접근 시)
-	@RequestMapping( value="json/updateTranCodeByProd/{tranCode}/{prodNo}", method=RequestMethod.GET )
-	public boolean updateTranCodeByProd( 	@PathVariable String tranCode,
-											@PathVariable int prodNo ) throws Exception
+	@GetMapping("json/updateTranCodeByProd/{tranCode}/{prodNo}")
+	public boolean updateTranCodeByProd( @PathVariable String tranCode,
+										 @PathVariable int prodNo ) throws Exception
 	{
 		System.out.println("/purchase/json/updateTranCodeByProd : GET");
 

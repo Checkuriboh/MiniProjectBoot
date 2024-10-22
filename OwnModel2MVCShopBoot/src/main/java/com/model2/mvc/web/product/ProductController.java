@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.model2.mvc.common.Page;
@@ -37,10 +34,6 @@ public class ProductController {
 	
 	@Value("${pageSize:3}")
 	private int pageSize;
-
-	// 이미지 파일 참조 dirPath
-	@Value("${file.dir:'C:/uploadFiles/'}")
-	private String fileDir;
 	
 	
 	///Constructor
@@ -52,7 +45,7 @@ public class ProductController {
 	///Method
 	
 	//==> 상품정보 추가 페이지로 이동
-	@RequestMapping( value="addProduct", method=RequestMethod.GET )
+	@GetMapping("addProduct")
 	public String addProduct() throws Exception
 	{
 		System.out.println("/product/addProduct : GET");
@@ -61,34 +54,14 @@ public class ProductController {
 	}
 	
 	//==> 상품정보 추가 B/L 수행
-	@RequestMapping( value="addProduct", method=RequestMethod.POST )
-	public String addProduct( 	@ModelAttribute("product") Product product,
-								@RequestParam("fileData") MultipartFile fileData ) throws Exception
+	@PostMapping("addProduct")
+	public String addProduct( @ModelAttribute Product product,
+							  @RequestParam MultipartFile fileData ) throws Exception
 	{
 		System.out.println("/product/addProduct : POST");
 
-		// 업로드 된 파일이 존재하면 저장
-		if ( !fileData.isEmpty() ) 
-		{
-			// 파일 이름으로 랜덤한 ID 부여
-			String fileName = UUID.randomUUID().toString() + "." + fileData.getContentType().substring(6);
-					
-			try {
-				// 파일 저장 + 성공 시 상품에 파일 이름 저장
-				fileData.transferTo(new File(fileDir, fileName));
-				product.setFileName(fileName);
-				
-			} catch (IOException e) {
-				// 파일 저장 실패 시 빈 파일 저장
-				product.setFileName("empty.GIF");
-				e.printStackTrace();
-			}
-		}
-		else { // 업로드 된 파일이 없으면 빈 파일 저장
-			product.setFileName("empty.GIF");
-//			product.setFileName("../../images/empty.GIF");
-		}
-		
+		// 업로드 된 파일 저장 + 파일 이름 설정
+		productService.saveProductFile(product, fileData);
 		// 상품 정보 추가 B/L 수행
 		productService.addProduct(product);
 
@@ -96,9 +69,9 @@ public class ProductController {
 	}
 
 	//==> 상품정보 확인 페이지로 이동
-	@RequestMapping( value="getProduct", method=RequestMethod.GET )
-	public String getProduct( 	@RequestParam("prodNo") int prodNo,
-								Model model ) throws Exception
+	@GetMapping("getProduct")
+	public String getProduct( @RequestParam int prodNo,
+							  Model model ) throws Exception
 	{
 		System.out.println("/product/getProduct : GET");
 
@@ -110,9 +83,9 @@ public class ProductController {
 	}
 
 	//==> 상품정보 수정 페이지로 이동
-	@RequestMapping( value="updateProduct", method=RequestMethod.GET )
-	public String updateProduct( 	@RequestParam("prodNo") int prodNo,
-									Model model ) throws Exception
+	@GetMapping("updateProduct")
+	public String updateProduct( @RequestParam int prodNo,
+								 Model model ) throws Exception
 	{
 		System.out.println("/product/updateProduct : GET");
 
@@ -124,34 +97,16 @@ public class ProductController {
 	}
 
 	//==> 상품정보 수정 B/L 수행
-	@RequestMapping( value="updateProduct", method=RequestMethod.POST )
-	public String updateProduct( 	@ModelAttribute("product") Product product,
-									@RequestParam("fileData") MultipartFile fileData ) throws Exception
+	@PostMapping("updateProduct")
+	public String updateProduct( @ModelAttribute Product product, 
+								 @RequestParam MultipartFile fileData ) throws Exception
 	{
 		System.out.println("/product/updateProduct : POST");
-		
-		// 업로드 된 파일이 존재하면 저장
-		if ( !fileData.isEmpty() ) 
-		{
-			// 파일 이름으로 랜덤한 ID 부여
-			String fileName = UUID.randomUUID().toString() + "." + fileData.getContentType().substring(6);
-			
-			try {
-				// 파일 저장 + 성공 시 상품에 파일 이름 저장
-				fileData.transferTo(new File(fileDir, fileName));
-				product.setFileName(fileName);
-				
-			} catch (IOException e) {
-				// 파일 저장 실패 시 빈 파일 저장
-				product.setFileName("empty.GIF");
-				e.printStackTrace();
-			}
+
+		if ( !fileData.isEmpty() ) {
+			// 업로드 된 파일 저장 + 파일 이름 설정
+			productService.saveProductFile(product, fileData);
 		}
-		else { // 업로드 된 파일이 없으면 빈 파일 저장
-			product.setFileName("empty.GIF");
-//			product.setFileName("../../images/empty.GIF");
-		}
-		
 		// 상품 정보 갱신 B/L 수행
 		productService.updateProduct(product);
 
@@ -159,9 +114,9 @@ public class ProductController {
 	}
 	
 	//==> 상품목록 검색 후 확인 페이지로 이동
-	@RequestMapping( value="listProduct" )
-	public String listProduct( 	@ModelAttribute("search") Search search, 
-								Model model ) throws Exception
+	@RequestMapping(value="listProduct", method={RequestMethod.GET, RequestMethod.POST})
+	public String listProduct( @ModelAttribute Search search, 
+							   Model model ) throws Exception
 	{
 		System.out.println("/product/listProduct : GET / POST");
 		

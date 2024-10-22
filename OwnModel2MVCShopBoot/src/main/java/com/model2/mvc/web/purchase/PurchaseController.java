@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
@@ -53,9 +50,9 @@ public class PurchaseController {
 	///Method
 	
 	//==> 판매정보 추가 페이지로 이동
-	@RequestMapping( value="addPurchase", method=RequestMethod.GET )
-	public ModelAndView addPurchase( 	@RequestParam("prodNo") int prodNo, 
-										HttpSession session ) throws Exception
+	@GetMapping("addPurchase")
+	public ModelAndView addPurchase( @RequestParam int prodNo, 
+									 HttpSession session ) throws Exception
 	{
 		System.out.println("/purchase/addPurchase : GET");
 		
@@ -71,10 +68,10 @@ public class PurchaseController {
 	}
 
 	//==> 판매정보 추가 B/L 수행
-	@RequestMapping( value="addPurchase", method=RequestMethod.POST )
-	public ModelAndView addPurchase( 	@ModelAttribute("user") User user, 
-										@ModelAttribute("product") Product product, 
-										@ModelAttribute("purchase") Purchase purchase ) throws Exception
+	@PostMapping("addPurchase")
+	public ModelAndView addPurchase( @ModelAttribute User user, 
+									 @ModelAttribute Product product, 
+									 @ModelAttribute Purchase purchase ) throws Exception
 	{
 		System.out.println("/purchase/addPurchase : POST");
 
@@ -90,8 +87,8 @@ public class PurchaseController {
 	}
 	
 	//==> 판매정보 확인 페이지로 이동
-	@RequestMapping( value="getPurchase", method=RequestMethod.GET )
-	public ModelAndView getPurchase( @RequestParam("tranNo") int tranNo ) throws Exception
+	@GetMapping("getPurchase")
+	public ModelAndView getPurchase( @RequestParam int tranNo ) throws Exception
 	{
 		System.out.println("/purchase/getPurchase : GET");
 
@@ -103,8 +100,8 @@ public class PurchaseController {
 	}
 
 	//==> 판매정보 수정 페이지로 이동
-	@RequestMapping( value="updatePurchase", method=RequestMethod.GET )
-	public ModelAndView updatePurchase( @RequestParam("tranNo") int tranNo ) throws Exception
+	@GetMapping("updatePurchase")
+	public ModelAndView updatePurchase( @RequestParam int tranNo ) throws Exception
 	{
 		System.out.println("/purchase/updatePurchase : GET");
 
@@ -116,8 +113,8 @@ public class PurchaseController {
 	}
 
 	//==> 판매정보 수정 B/L 수행
-	@RequestMapping( value="updatePurchase", method=RequestMethod.POST )
-	public ModelAndView updatePurchase( @ModelAttribute("purchase") Purchase purchase ) throws Exception
+	@PostMapping("updatePurchase")
+	public ModelAndView updatePurchase( @ModelAttribute Purchase purchase ) throws Exception
 	{
 		System.out.println("/purchase/updatePurchase : POST");
 
@@ -129,9 +126,9 @@ public class PurchaseController {
 	}
 
 	//==> 판매상태 수정 B/L 수행
-	@RequestMapping( value="updateTranCode", method=RequestMethod.GET )
-	public ModelAndView updateTranCode( @RequestParam("tranNo") int tranNo,
-										@RequestParam("tranCode") String tranCode ) throws Exception
+	@GetMapping("updateTranCode")
+	public ModelAndView updateTranCode( @RequestParam int tranNo,
+										@RequestParam String tranCode ) throws Exception
 	{
 		System.out.println("/purchase/updateTranCode : GET");
 
@@ -144,9 +141,9 @@ public class PurchaseController {
 	}
 
 	//==> 판매상태 수정 B/L 수행 (상품정보에서 접근 시)
-	@RequestMapping( value="updateTranCodeByProd", method=RequestMethod.GET )
-	public ModelAndView updateTranCodeByProd( 	@RequestParam("prodNo") int prodNo,
-												@RequestParam("tranCode") String tranCode ) throws Exception
+	@GetMapping("updateTranCodeByProd")
+	public ModelAndView updateTranCodeByProd( @RequestParam int prodNo,
+											  @RequestParam String tranCode ) throws Exception
 	{
 		System.out.println("/purchase/updateTranCodeByProd : GET");
 
@@ -165,9 +162,9 @@ public class PurchaseController {
 	}
 
 	//==> 판매목록 검색 후 확인 페이지로 이동
-	@RequestMapping( value="listPurchase" )
-	public ModelAndView listPurchase( 	@ModelAttribute("search") Search search, 
-										HttpSession session ) throws Exception
+	@RequestMapping(value="listPurchase", method={RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView listPurchase( @ModelAttribute Search search, 
+									  HttpSession session ) throws Exception
 	{
 		System.out.println("/purchase/listPurchase : GET / POST");
 		

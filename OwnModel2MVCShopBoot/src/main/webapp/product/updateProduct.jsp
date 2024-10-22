@@ -179,6 +179,8 @@
 							class="img-rounded" style="margin-top:10px; margin-right:10px;">
 				</div>
 			</div>
+			<!-- 이미지파일이름 -->
+			<input type="hidden" name="fileName" value="${product.fileName}"/>
 		    
 		    <hr/>
 		    

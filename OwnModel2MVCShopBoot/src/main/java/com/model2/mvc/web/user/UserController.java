@@ -10,11 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.*;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.User;
@@ -45,7 +41,7 @@ public class UserController {
 	
 	//@RequestMapping("/addUserView.do")
 	//public String addUserView() throws Exception {
-	@RequestMapping( value="addUser", method=RequestMethod.GET )
+	@GetMapping("addUser")
 	public String addUser() throws Exception {
 
 		System.out.println("/user/addUser : GET");
@@ -54,8 +50,8 @@ public class UserController {
 	}
 	
 	//@RequestMapping("/addUser.do")
-	@RequestMapping( value="addUser", method=RequestMethod.POST )
-	public String addUser( @ModelAttribute("user") User user ) throws Exception {
+	@PostMapping("addUser")
+	public String addUser( @ModelAttribute User user ) throws Exception {
 
 		System.out.println("/user/addUser : POST");
 		//Business Logic
@@ -65,8 +61,8 @@ public class UserController {
 	}
 	
 	//@RequestMapping("/getUser.do")
-	@RequestMapping( value="getUser", method=RequestMethod.GET )
-	public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
+	@GetMapping("getUser")
+	public String getUser( @RequestParam String userId , Model model ) throws Exception {
 		
 		System.out.println("/user/getUser : GET");
 		//Business Logic
@@ -79,8 +75,8 @@ public class UserController {
 	
 	//@RequestMapping("/updateUserView.do")
 	//public String updateUserView( @RequestParam("userId") String userId , Model model ) throws Exception{
-	@RequestMapping( value="updateUser", method=RequestMethod.GET )
-	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
+	@GetMapping("updateUser")
+	public String updateUser( @RequestParam String userId , Model model ) throws Exception{
 
 		System.out.println("/user/updateUser : GET");
 		//Business Logic
@@ -92,8 +88,8 @@ public class UserController {
 	}
 	
 	//@RequestMapping("/updateUser.do")
-	@RequestMapping( value="updateUser", method=RequestMethod.POST )
-	public String updateUser( @ModelAttribute("user") User user , HttpSession session) throws Exception {
+	@PostMapping("updateUser")
+	public String updateUser( @ModelAttribute User user , HttpSession session) throws Exception {
 
 		System.out.println("/user/updateUser : POST");
 		
@@ -113,7 +109,7 @@ public class UserController {
 	
 	//@RequestMapping("/loginView.do")
 	//public String loginView() throws Exception{
-	@RequestMapping( value="login", method=RequestMethod.GET )
+	@GetMapping("login")
 	public String login() throws Exception {
 
 		System.out.println("/user/logon : GET");
@@ -122,8 +118,8 @@ public class UserController {
 	}
 	
 	//@RequestMapping("/login.do")
-	@RequestMapping( value="login", method=RequestMethod.POST )
-	public String login(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
+	@PostMapping("login")
+	public String login( @ModelAttribute User user , HttpSession session ) throws Exception{
 
 		System.out.println("/user/logon : POST");
 		//Business Logic
@@ -137,8 +133,8 @@ public class UserController {
 	}
 	
 	//@RequestMapping("/logout.do")
-	@RequestMapping( value="logout", method=RequestMethod.GET )
-	public String logout(HttpSession session ) throws Exception{
+	@GetMapping("logout")
+	public String logout( HttpSession session ) throws Exception{
 
 		System.out.println("/user/logout : GET");
 		
@@ -148,8 +144,8 @@ public class UserController {
 	}
 	
 	//@RequestMapping("/checkDuplication.do")
-	@RequestMapping( value="checkDuplication", method=RequestMethod.POST )
-	public String checkDuplication( @RequestParam("userId") String userId , Model model ) throws Exception {
+	@PostMapping("checkDuplication")
+	public String checkDuplication( @RequestParam String userId , Model model ) throws Exception {
 		
 		System.out.println("/user/checkDuplication : POST");
 		//Business Logic
@@ -162,8 +158,8 @@ public class UserController {
 	}
 	
 	//@RequestMapping("/listUser.do")
-	@RequestMapping( value="listUser" )
-	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+	@RequestMapping(value="listUser", method={RequestMethod.GET, RequestMethod.POST})
+	public String listUser( @ModelAttribute Search search , Model model , HttpServletRequest request ) throws Exception{
 		
 		System.out.println("/user/listUser : GET / POST");
 		
