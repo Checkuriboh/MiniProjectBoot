@@ -49,6 +49,14 @@
 			});
 		});
 		
+		
+		//============= 로그인 화면이동 =============
+		$( function() {
+			$("a[href='#']:contains('상품검색')").on("click" , function() {
+				self.location = "/product/listProduct?menu=search"
+			});
+		});
+		
 	</script>
 	
 </head>
