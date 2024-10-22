@@ -7,7 +7,7 @@
 <!-- <mapper namespace="ProductMapper"> -->
 <mapper namespace="com.model2.mvc.service.product.ProductDao">
  	
-	<resultMap id="productSelectMap" type="product">
+	<resultMap id="productSelectMap" type="com.model2.mvc.service.domain.Product">
 		<result property="prodNo" 		column="prod_no" 			jdbcType="NUMERIC" />
 		<result property="prodName"		column="prod_name" 			jdbcType="VARCHAR" />
 		<result property="prodDetail" 	column="prod_detail" 		jdbcType="VARCHAR" />
@@ -19,7 +19,7 @@
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
-	<insert id="addProduct" parameterType="product" >
+	<insert id="addProduct" parameterType="com.model2.mvc.service.domain.Product">
 	 	INSERT
 		INTO 	product( prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date ) 
 		VALUES	(	SEQ_PRODUCT_PROD_NO.NEXTVAL , 
@@ -40,7 +40,7 @@
 	</select>
 	 
 	<!-- SQL : UPDATE -->
-	<update id="updateProduct" parameterType="product" >
+	<update id="updateProduct" parameterType="com.model2.mvc.service.domain.Product">
 		UPDATE	product
 	   	<set>
 	   		prod_name 		= #{prodName}, 
@@ -53,7 +53,7 @@
 	</update>
 	
 	<!-- SQL : SELECT LIST -->
-	<select id="getProductList" parameterType="search" resultMap="productSelectMap">
+	<select id="getProductList" parameterType="com.model2.mvc.common.Search" resultMap="productSelectMap">
 	  	SELECT	*
 	  	FROM (	SELECT	inner_table.* , ROWNUM AS row_seq
 	  			FROM (	SELECT	p.prod_no, prod_name, price, reg_date, tran_status_code
@@ -81,21 +81,13 @@
 							</if>
 						</where>
 						ORDER BY
-							<if test="sortColumn == 0 or sortColumn == null">
-								prod_no
-							</if>
-							<if test="sortColumn == 1">
-								prod_name
-							</if>
-							<if test="sortColumn == 2">
-								price
-							</if>
-								<if test="sortOrder == 0 or sortOrder == null">
-									asc 
-								</if>
-								<if test="sortOrder == 1">
-									desc 
-								</if>
+							<if test="sortColumn == null"> prod_no </if>
+							<if test="sortColumn == 0"> prod_no </if>
+							<if test="sortColumn == 1"> prod_name </if>
+							<if test="sortColumn == 2"> price </if>
+								<if test="sortOrder == null"> asc </if>
+								<if test="sortOrder == 0"> asc </if>
+								<if test="sortOrder == 1"> desc </if>
 					) inner_table
 				WHERE	ROWNUM <![CDATA[<=]]> #{endRowNum} 
 			)
@@ -103,7 +95,7 @@
 	 </select>
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	<select id="getTotalCount" parameterType="search" resultType="int">
+	<select id="getTotalCount" parameterType="com.model2.mvc.common.Search" resultType="int">
 		SELECT	COUNT(*)
 	 	FROM (	SELECT	p.prod_no, prod_name, price, reg_date, tran_status_code
 				FROM	product p, transaction t 
@@ -117,25 +109,25 @@
 							AND prod_name LIKE '%${searchKeyword}%'
 						</if>
 					</if>
-					
-							<if test="startSearchRange != null and endSearchRange != null">
-								<if test="startSearchRange == '' and endSearchRange != '' ">
-									AND price <![CDATA[<=]]> #{endSearchRange}
-								</if>
-								<if test="startSearchRange != '' and endSearchRange == '' ">
-									AND price <![CDATA[>=]]> #{startSearchRange}
-								</if>
-								<if test="startSearchRange != '' and endSearchRange != '' ">
-									AND price BETWEEN #{startSearchRange} AND #{endSearchRange}
-								</if>
-							</if>
+					<if test="startSearchRange != null and endSearchRange != null">
+						<if test="startSearchRange == '' and endSearchRange != '' ">
+							AND price <![CDATA[<=]]> #{endSearchRange}
+						</if>
+						<if test="startSearchRange != '' and endSearchRange == '' ">
+							AND price <![CDATA[>=]]> #{startSearchRange}
+						</if>
+						<if test="startSearchRange != '' and endSearchRange != '' ">
+							AND price BETWEEN #{startSearchRange} AND #{endSearchRange}
+						</if>
+					</if>
 					<!-- 
 					<if test="startSearchRange != null and startSearchRange != '' and
 								endSearchRange != null and endSearchRange != '' ">
 						<if test="endSearchRange >= startSearchRange">
 							AND price BETWEEN #{startSearchRange} AND #{endSearchRange}
 						</if>
-					</if> -->
+					</if> 
+					-->
 				</where>
 			) countTable
 	</select>

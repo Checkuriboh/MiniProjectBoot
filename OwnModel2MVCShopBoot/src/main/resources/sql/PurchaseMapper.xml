@@ -7,7 +7,7 @@
 <!-- <mapper namespace="PurchaseMapper"> -->
 <mapper namespace="com.model2.mvc.service.purchase.PurchaseDao">
  	
-	<resultMap id="purchaseSelectMap" type="purchase">
+	<resultMap id="purchaseSelectMap" type="com.model2.mvc.service.domain.Purchase">
 		<result property="tranNo" 			column="tran_no" 			jdbcType="NUMERIC" />
 		<result property="paymentOption" 	column="payment_option" 	jdbcType="VARCHAR" />
 		<result property="receiverName" 	column="receiver_name" 		jdbcType="VARCHAR" />
@@ -22,7 +22,7 @@
 	</resultMap>
 
 	<!-- SQL : INSERT -->
-	<insert id="addPurchase" parameterType="purchase">
+	<insert id="addPurchase" parameterType="com.model2.mvc.service.domain.Purchase">
 	 	INSERT
 		INTO transaction (	tran_no, prod_no, buyer_id, payment_option, 
 							receiver_name, receiver_phone, demailaddr, dlvy_request, 
@@ -50,7 +50,7 @@
 	</select>
 
 	<!-- SQL : UPDATE -->
-	<update id="updatePurchase" parameterType="purchase">
+	<update id="updatePurchase" parameterType="com.model2.mvc.service.domain.Purchase">
 		UPDATE	transaction
 	   	<set>
 	   		payment_option 	= #{paymentOption},
@@ -64,7 +64,7 @@
 	</update>
 	
 	<!-- SQL : UPDATE -->
-	<update id="updateTranCode" parameterType="purchase">
+	<update id="updateTranCode" parameterType="com.model2.mvc.service.domain.Purchase">
 		UPDATE 	transaction
 		SET 	tran_status_code = #{tranCode}
 		WHERE 	prod_no = #{purchaseProd.prodNo}
@@ -84,8 +84,8 @@
 				WHERE	ROWNUM <![CDATA[<=]]> #{search.endRowNum} 
 			)
 		WHERE	row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
-	 </select>
-	 
+	</select>
+	
 	<!-- SQL : SELECT ROW Count -->	 
 	<select id="getTotalCount" parameterType="map" resultType="int">
 		SELECT	COUNT(*)

@@ -7,7 +7,7 @@
 <!-- <mapper namespace="UserMapper"> -->
 <mapper namespace="com.model2.mvc.service.user.UserDao">
  	
-	<resultMap id="userSelectMap" type="user">
+	<resultMap id="userSelectMap" type="com.model2.mvc.service.domain.User">
 		<result property="userId" 		column="user_id" 		jdbcType="VARCHAR" />
 		<result property="userName"		column="user_name" 		jdbcType="VARCHAR" />
 		<result property="password" 	column="password" 		jdbcType="VARCHAR" />
@@ -20,7 +20,7 @@
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
-	<insert id="addUser" parameterType="user" >
+	<insert id="addUser" parameterType="com.model2.mvc.service.domain.User">
 		INSERT
 		INTO 	users( user_id , user_name , password , role , ssn, cell_phone, addr, email , reg_date) 
 		VALUES	( 	#{userId} , 
@@ -42,7 +42,7 @@
 	</select>
 	 
 	<!-- SQL : UPDATE -->
-	<update id="updateUser" parameterType="user" >
+	<update id="updateUser" parameterType="com.model2.mvc.service.domain.User">
 	   UPDATE users
 	   <set>
 	   		user_name 	= #{userName} ,
@@ -52,9 +52,9 @@
 	  	</set>
 	  	WHERE	user_id = #{userId}
 	</update>
-	 
+	
 	<!-- SQL : SELECT LIST -->
-	<select id="getUserList" parameterType="search" resultMap="userSelectMap">
+	<select id="getUserList" parameterType="com.model2.mvc.common.Search" resultMap="userSelectMap">
 	  	SELECT	*
 	  	FROM	(	SELECT	inner_table.* , ROWNUM AS row_seq
 	  				FROM	(	SELECT user_id , user_name , email
@@ -96,7 +96,7 @@
 	-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	<select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	<select  id="getTotalCount" parameterType="com.model2.mvc.common.Search" resultType="int">
 		SELECT	COUNT(*)
 	  	FROM	(	SELECT user_id , user_name , email
 					FROM users
