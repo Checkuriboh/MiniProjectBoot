@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService{
 	
 	///Field
 	@Autowired
-	@Qualifier("userDaoImpl")
+	//@Qualifier("userDaoImpl")
 	private UserDao userDao;
 	
 	
@@ -30,10 +30,10 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	
-	///Setter
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
+//	///Setter
+//	public void setUserDao(UserDao userDao) {
+//		this.userDao = userDao;
+//	}
 
 	
 	///Method
