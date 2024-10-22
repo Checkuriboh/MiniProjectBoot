@@ -18,20 +18,20 @@ public class ProductServiceImpl implements ProductService {
 	
 	///field
 	@Autowired
-	@Qualifier("productDaoImpl")
+	//@Qualifier("productDaoImpl")
 	private ProductDao productDao;
-
+	
 	
 	///constructor
 	public ProductServiceImpl() {
 		System.out.println(this.getClass());
 	}
-
-
-	///setter
-	public void setProductDao(ProductDao productDao) {
-		this.productDao = productDao;
-	}
+	
+	
+//	///setter
+//	public void setProductDao(ProductDao productDao) {
+//		this.productDao = productDao;
+//	}
 	
 	
 	///method
