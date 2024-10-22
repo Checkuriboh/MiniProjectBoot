@@ -80,6 +80,28 @@
 		    <artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 		
+		
+	    <!-- SLF4J with Log4j binding -->
+	    <dependency>
+	        <groupId>org.slf4j</groupId>
+	        <artifactId>slf4j-log4j12</artifactId>
+	    </dependency>
+	    <!-- SLF4J&LogBack multiple bindings -->
+	    
+		<!-- LogBack(default logger) deactivate -->
+		<!--
+			<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter</artifactId>
+		    <exclusions>
+		        <exclusion>
+		            <groupId>org.springframework.boot</groupId>
+		            <artifactId>spring-boot-starter-logging</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+		-->
+
 	</dependencies>
 
 	<build>

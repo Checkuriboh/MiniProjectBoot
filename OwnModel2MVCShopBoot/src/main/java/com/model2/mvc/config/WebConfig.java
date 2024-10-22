@@ -2,7 +2,6 @@ package com.model2.mvc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -20,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) 
 	{
-		// URL Pattern À» È®ÀÎÇÏ°í. interceptor Àû¿ëÀ¯¹« µî·ÏÇÔ.
+		// URL Pattern ì„ í™•ì¸í•˜ê³ . interceptor ì ìš©ìœ ë¬´ ë“±ë¡
 		registry.addInterceptor( new LogonCheckInterceptor() ).addPathPatterns("/user/*");
 	}
 
