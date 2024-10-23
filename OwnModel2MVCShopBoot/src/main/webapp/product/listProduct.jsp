@@ -20,12 +20,73 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	
 	<!-- //////////////////////// CSS //////////////////////// -->
 	<style>
+	
  		body {
             padding-top : 50px;
         }
+        /* 
+		.glyphicon { 
+			margin-right:5px;
+		} 
+		*/
+		.list-group {
+            padding-top : 20px;
+		}
+		.thumbnail {
+		    margin-bottom: 20px;
+		    padding: 0px;
+		    -webkit-border-radius: 0px;
+		    -moz-border-radius: 0px;
+		    border-radius: 0px;
+		}
+		/* 
+		.item.list-group-item {
+		    float: none;
+		    width: 100%;
+		    background-color: #fff;
+		    margin-bottom: 10px;
+		}
+		.item.list-group-item:nth-of-type(odd):hover, .item.list-group-item:hover {
+		    background: #428bca;
+		}
+		 */
+		/*  .item.list-group-item  */ 
+		img.list-group-image {
+			justify-content: center;
+			margin-top: 10px;
+		    width: 400px;
+  			height: 250px;
+  			object-fit: contain;
+		}
+		/* 
+		.item.list-group-item .thumbnail {
+		    margin-bottom: 0px;
+		}
+		.item.list-group-item .caption {
+		    padding: 9px 9px 0px 9px;
+		}
+		.item.list-group-item:nth-of-type(odd) {
+		    background: #eeeeee;
+		}
+		
+		.item.list-group-item:before, .item.list-group-item:after {
+		    display: table;
+		    content: " ";
+		}
+		
+		.item.list-group-item img {
+		    float: left;
+		}
+		.item.list-group-item:after {
+		    clear: both;
+		} 
+		*/
+		.list-group-item-text {
+		    margin: 0 0 11px;
+		}
+		
     </style>
 
 	<!-- //////////////////// JavaScript //////////////////// -->
@@ -125,30 +186,17 @@
 				}
 			});
 			
-			/* 
-			//==> 검색 설정 변경 Event 발생 시 입력 창 변경
-			$( "select[name='searchCondition']" ).bind("change", function() {
-				
-				if ( $(this).val() == '2' ) 
-				{
-					$("span:has(input[name='searchKeyword'])").css("display", "none");
-					$("span:contains('~')").css("display", "inline-block");
-				}
-				else
-				{
-					$("span:has(input[name='searchKeyword'])").css("display", "inline-block");
-					$("span:contains('~')").css("display", "none");
-				}
-				
-			}); 
-			*/
-			
+
+			//==> CSS(Grid View) 구매하기
+			$( ".thumbnail .btn-success" ).bind("click", function() {
+				var prodNo = $(this).parents(".thumbnail").children(":last").val();
+				self.location = "/product/getProduct?menu=search&prodNo="+prodNo;	
+			});
 			
 			//==> manage 일 때 구매된 상품명 click Event
 			if ( ${ param.menu == 'manage' } ) 
 			{
 				$( "tr:has( span:not(:contains('판매중')) ) td:nth-child(2)" ).bind("click", function() {
-					
 					var prodNo = $(this).siblings(":last").children("i").attr("id");
 					self.location = "/product/getProduct?menu=search&prodNo="+prodNo;	
 					
@@ -157,7 +205,6 @@
 			}
 			
 			//==> '판매중' 상품명 click Event 연결 및 처리
-			//$( ".ct_list_pop:has(span:contains('판매중')) td:nth-child(3)" ).bind("click", function() {
 			$( "tr:has(span:contains('판매중')) td:nth-child(2)" ).bind("click", function() {
 					
 				var prodNo = $(this).siblings(':last').children("i").attr("id");
@@ -173,9 +220,6 @@
 			
 			}).css("color", "red"); 
 			//==> click event 적용된 상품명 색 변경
-			
-			//==> (click:상세정보) 색 변경
-			//$("h7").css("color" , "red");
 			
 			
 			//==> 배송하기 click Event -> 상품상태 변경(배송중)
@@ -257,9 +301,6 @@
 				// ajax end
 			});
 			
-			//==> 짝수번째 row 배경색 변경			
-			//$( ".ct_list_pop:odd" ).css("background-color" , "whitesmoke");
-			
 		});
 
 </script>
@@ -325,7 +366,7 @@
 						</select>
 				  	</div>
 				  	<!-- 검색어 -->
-					<div class="form-group" <%-- style="display:${ search.searchCondition==2 ? 'none' : 'inline-block'};" --%>>
+					<div class="form-group">
 						<label class="sr-only" for="searchKeyword">검색어</label>
 						<input type="text" class="form-control" name="searchKeyword" placeholder="검색어"
 								value="${ ! empty search.searchKeyword ? search.searchKeyword : '' }">
@@ -358,6 +399,44 @@
 			
 	    </div>
 	    <!-- table 위쪽 검색 end /////////////////////////////////////-->
+		
+		<!-- product list grid view start //////////////////////// -->
+	 	<div class="container">
+			<div class="row list-group">
+			
+				<c:set var="i" value="0" />
+				<c:forEach var="product" items="${list}">
+					<c:set var="i" value="${ i+1 }" />
+					
+			        <div class="item col-xs-4 col-lg-4">
+			            <div class="thumbnail">
+			                <img class="group list-group-image" src="/product/json/getImageFile/${product.fileName}" />
+			                <div class="caption" >
+			                    <h4 class="group inner list-group-item-heading">
+			                        ${product.prodName}
+			                    </h4>
+			                    <p class="group inner list-group-item-text">
+			                        ${product.regDate}
+			                    </p>
+			                    <div class="row">
+			                        <div class="col-xs-12 col-md-9">
+			                            <p class="lead">${product.price} ￦</p>
+			                        </div>
+			                        <div class="col-xs-12 col-md-1">
+			                            <a class="btn btn-success" href="#">구매</a>
+			                        </div>
+			                    </div>
+			                </div>
+					  		<input type="hidden" value="${product.prodNo}">
+			            </div>
+			        </div>
+		        
+		        </c:forEach>
+		        
+			</div>
+		</div>
+		<!-- product list grid view end ////////////////////////// -->
+		
 		
 	    <!-- table Start /////////////////////////////////////-->
       	<table class="table table-hover table-striped">
@@ -408,6 +487,7 @@
 			
       	</table>
 		<!-- table End ///////////////////////////////////// -->
+		
 	  
 	</div>
  	<!--  화면구성 div End ///////////////////////////////////// -->

@@ -96,9 +96,10 @@ public class ProductServiceImpl implements ProductService {
             // 이미지가 존재하는지 확인
             if ( !resource.exists() ) {
             	// 이미지가 없으면 404 error
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                imagePath = Paths.get(fileDir + "404image.jpg");
+                resource = (Resource) new UrlResource(imagePath.toUri());
+                //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        	System.out.println(resource.toString());
 
             // 이미지 파일의 Content-Type 추출 (JPEG, PNG 등)
             String contentType = Files.probeContentType(imagePath);
@@ -130,12 +131,12 @@ public class ProductServiceImpl implements ProductService {
 						
 			} catch (IOException e) {
 				// 파일 저장 실패 시 빈 파일 저장
-				product.setFileName("empty.GIF");
+				product.setFileName("noimage.jpg");
 				e.printStackTrace();
 			}
 		}
 		else { // 업로드 된 파일이 없으면 빈 파일 저장
-			product.setFileName("empty.GIF");
+			product.setFileName("noimage.jpg");
 		//	product.setFileName("../../images/empty.GIF");
 		}
 	}

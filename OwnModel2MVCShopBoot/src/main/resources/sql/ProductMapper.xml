@@ -56,7 +56,7 @@
 	<select id="getProductList" parameterType="com.model2.mvc.common.Search" resultMap="productSelectMap">
 	  	SELECT	*
 	  	FROM (	SELECT	inner_table.* , ROWNUM AS row_seq
-	  			FROM (	SELECT	p.prod_no, prod_name, price, reg_date, tran_status_code
+	  			FROM (	SELECT	p.prod_no, prod_name, prod_detail, price, image_file, reg_date, tran_status_code
 						FROM	product p, transaction t 
 						<where>
 							p.prod_no = t.prod_no(+)

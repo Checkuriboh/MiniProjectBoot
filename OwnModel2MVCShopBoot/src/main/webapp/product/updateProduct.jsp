@@ -25,9 +25,17 @@
 	
 	<!-- //////////////////////// CSS //////////////////////// -->
 	<style>
+	
  		body {
             padding-top : 50px;
         }
+        
+		img.upload_file {
+			margin-top:10px; 
+			margin-right:10px;
+  			max-width: 700px;
+		}
+		
     </style>
     
 	<!-- //////////////////// JavaScript //////////////////// -->
@@ -175,8 +183,7 @@
 			    <label for="fileData" class="col-sm-2 control-label">상품이미지</label>
 			    <div class="col-sm-3">
 				    <input type="file" name="fileData">
-					<img src="/product/json/getImageFile/${product.fileName}" alt="..." 
-							class="img-rounded" style="margin-top:10px; margin-right:10px;">
+					<img class="img-rounded upload_file" src="/product/json/getImageFile/${product.fileName}" >
 				</div>
 			</div>
 			<!-- 이미지파일이름 -->

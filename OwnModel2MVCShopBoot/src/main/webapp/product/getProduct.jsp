@@ -23,9 +23,15 @@
 	
 	<!-- //////////////////////// CSS //////////////////////// -->
 	<style>
+	
  		body {
             padding-top : 50px;
         }
+        
+		img.upload_file {
+  			max-width: 700px;
+		}
+		
     </style>
 	
 	<!-- //////////////////// JavaScript //////////////////// -->
@@ -81,7 +87,7 @@
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>상품이미지</strong></div>
 			<div class="col-xs-8 col-md-4">
-				<img src="/product/json/getImageFile/${product.fileName}"/>
+				<img class="upload_file" src="/product/json/getImageFile/${product.fileName}"/>
 			</div>
 		</div>
 		
