@@ -3,12 +3,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-<c:if test="${ param.menu != 'manage' }">
-	<jsp:forward page="listSales.jsp"/>
-</c:if>
-
-
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -32,6 +26,71 @@
  		body {
             padding-top : 50px;
         }
+		.list-group {
+            padding-top : 20px;
+		}
+		.thumbnail {
+		    margin-bottom: 20px;
+		    padding: 0px;
+		    -webkit-border-radius: 0px;
+		    -moz-border-radius: 0px;
+		    border-radius: 0px;
+		}
+		/*  .item.list-group-item  */ 
+		img.list-group-image {
+			justify-content: center;
+		    width: 400px;
+  			height: 250px;
+  			object-fit: contain;
+		}
+		.list-group-item-text {
+		    margin: 0 0 11px;
+		}
+		p.sold-out {
+		    color: red;
+		}
+		.caption.sold-out {
+		    background: #eeeeee;
+		}
+        /* 
+		.glyphicon { 
+			margin-right:5px;
+		} 
+		*/
+		/* 
+		.item.list-group-item {
+		    float: none;
+		    width: 100%;
+		    background-color: #fff;
+		    margin-bottom: 10px;
+		}
+		.item.list-group-item:nth-of-type(odd):hover, .item.list-group-item:hover {
+		    background: #428bca;
+		}
+		 */
+		/* 
+		.item.list-group-item .thumbnail {
+		    margin-bottom: 0px;
+		}
+		.item.list-group-item .caption {
+		    padding: 9px 9px 0px 9px;
+		}
+		.item.list-group-item:nth-of-type(odd) {
+		    background: #eeeeee;
+		}
+		
+		.item.list-group-item:before, .item.list-group-item:after {
+		    display: table;
+		    content: " ";
+		}
+		
+		.item.list-group-item img {
+		    float: left;
+		}
+		.item.list-group-item:after {
+		    clear: both;
+		} 
+		*/
 		
     </style>
 
@@ -134,7 +193,7 @@
 			
 
 			//==> CSS(Grid View) 구매하기
-			$( ".thumbnail .btn-success" ).bind("click", function() {
+			$( ".thumbnail .btn-success:not([disabled])" ).bind("click", function() {
 				var prodNo = $(this).parents(".thumbnail").children(":last").val();
 				self.location = "/product/getProduct?menu=search&prodNo="+prodNo;	
 			});
@@ -247,6 +306,86 @@
 				// ajax end
 			});
 			
+			
+			
+			
+			
+			${resultPage.currentPage}
+			let isFetching = false;
+			let hasMore = true;
+
+			let root = document.getElementById('root');
+
+			async function fetchData() {
+			    isFetching = true;
+			    let response = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}`);
+			    let data = await response.json();
+			    console.log(data);
+
+			    isFetching = false;
+
+			    if (data.length === 0) {
+			        hasMore = false;
+			        return
+			    }
+
+			    for(let post of data) {
+			        let div = document.createElement('div');
+			        div.innerHTML = `<h2>${post.title}</h2><p>${post.body}</p>`
+			        root.appendChild(div);
+			    }
+			    currentPage++;
+			    
+			    
+			    $.ajax(
+						{
+							url : "/product/json/getProduct/"+prodNo ,
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData , status) {
+								
+								var displayValue = "<h6>"
+													+"상품명 : "+JSONData.prodName+"<br>"
+													+"상세정보 : "+JSONData.prodDetail+"<br>"
+													+"제조일 : "+JSONData.manuDate+"<br>"
+													+"가 격 : "+JSONData.price+"<br>"
+													+"등록일 : "+JSONData.regDateString+"<br>"
+													+"</h6>";
+
+								var thisProd = $( "i[id='"+prodNo+"']" );
+								
+								if (thisProd.html() != displayValue) 
+								{
+									$("h6").remove();
+									thisProd.html(displayValue);
+								}
+								else {
+									thisProd.html("");
+								}
+								
+							}
+						}
+				);
+				// ajax end
+			}
+			
+			//==> 무한 스크롤
+			window.addEventListener('scroll', function() {
+				// 스크롤이 바닥에 닿지 않으면 아무것도 안함
+			    if ((window.innerHeight + window.scrollY) < document.body.offsetHeight) {
+			        return;
+			    }
+			    
+				
+			    if (!isFetching || hasMore) {
+			    	fetchData();
+			    }
+			});
+			
 		});
 
 </script>
@@ -346,8 +485,7 @@
 	    </div>
 	    <!-- table 위쪽 검색 end /////////////////////////////////////-->
 		
-		<!-- https://codepen.io/kingchun1991/pen/NGEQJp -->
-		<!-- product list grid view start //////////////////////// --><%-- 
+		<!-- product list grid view start //////////////////////// -->
 	 	<div class="container">
 			<div class="row list-group">
 			
@@ -355,25 +493,27 @@
 				<c:forEach var="product" items="${list}">
 					<c:set var="i" value="${ i+1 }" />
 					
-			        <div class="list-group-item col-xs-4 col-lg-4">
+			        <div class="item col-xs-4 col-lg-4">
 			            <div class="thumbnail">
 			                <img class="group list-group-image" src="/product/json/getImageFile/${product.fileName}" />
-			                <div class="caption" >
+			                <div class="caption ${ empty product.proTranCode ? 'sold-out' :'' }">
 			                    <h4 class="group inner list-group-item-heading">
 			                        ${product.prodName}
 			                    </h4>
 			                    <p class="group inner list-group-item-text">
 			                        ${product.regDate}
 			                    </p>
-			                    <p class="lead">${product.price} ￦</p>
 			                    <div class="row">
-			                        <div class="col-xs-12 col-md-9">
-			                        	<c:if test="${ product.proTranCode == '1' }">
-			                            	<a class="btn btn-primary" href="#">배송</a>
-			                        	</c:if>
+			                        <div class="col-xs-12 col-md-5">
+			                            <p class="lead">${product.price}￦</p>
+			                        </div>
+			                        <div class="col-xs-12 col-md-4">
+			                            <p class="lead sold-out">${ empty product.proTranCode ? ' sold out' :'' }</p>
 			                        </div>
 			                        <div class="col-xs-12 col-md-1">
-			                            <a class="btn btn-success" href="#">상세보기</a>
+			                            <a class="btn btn-success" ${ empty product.proTranCode ? 'disabled' :'' }>
+			                            	상세
+			                            </a>
 			                        </div>
 			                    </div>
 			                </div>
@@ -384,7 +524,7 @@
 		        </c:forEach>
 		        
 			</div>
-		</div> --%>
+		</div>
 		<!-- product list grid view end ////////////////////////// -->
 		
 		

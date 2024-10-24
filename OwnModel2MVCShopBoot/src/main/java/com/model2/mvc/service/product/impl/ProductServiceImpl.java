@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDao productDao;
 
 	// 이미지 파일 참조 dirPath
-	@Value("${file.dir:/uploadFiles/}")
+	@Value("${file.dir:C:/uploadFiles/}")
 	private String fileDir;
 	
 	
