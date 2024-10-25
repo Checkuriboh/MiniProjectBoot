@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
 		int totalCount = productDao.getTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
+		map.put("list", list);
 		map.put("totalCount", totalCount);
 		
 		return map;

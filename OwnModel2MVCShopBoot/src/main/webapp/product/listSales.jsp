@@ -145,10 +145,20 @@
 			}
 			
 			$("#currentPage").val(currentPage)
+			//$("#currentPage").val( Number($("#currentPage").val())+1 );
 			
 			$("form").attr("method", "POST")
 					 .attr("action", "/product/listProduct?menu=${param.menu}")
 					 .submit();
+			/* 
+			var formData = $("form").serializeArray();
+			var formObj = {};
+			formData.forEach( (element) => {
+				formObj[element[name]] = element[value] 
+			});
+			
+			fetchProductList(formObj); 
+			*/
 		}
 		
 		//==> 검색,상품확인,구매,배경색 Event 처리
@@ -306,73 +316,6 @@
 				// ajax end
 			});
 			
-			
-			
-			
-			
-			${resultPage.currentPage}
-			let isFetching = false;
-			let hasMore = true;
-
-			let root = document.getElementById('root');
-
-			async function fetchData() {
-			    isFetching = true;
-			    let response = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}`);
-			    let data = await response.json();
-			    console.log(data);
-
-			    isFetching = false;
-
-			    if (data.length === 0) {
-			        hasMore = false;
-			        return
-			    }
-
-			    for(let post of data) {
-			        let div = document.createElement('div');
-			        div.innerHTML = `<h2>${post.title}</h2><p>${post.body}</p>`
-			        root.appendChild(div);
-			    }
-			    currentPage++;
-			    
-			    
-			    $.ajax(
-						{
-							url : "/product/json/getProduct/"+prodNo ,
-							method : "GET" ,
-							dataType : "json" ,
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							success : function(JSONData , status) {
-								
-								var displayValue = "<h6>"
-													+"상품명 : "+JSONData.prodName+"<br>"
-													+"상세정보 : "+JSONData.prodDetail+"<br>"
-													+"제조일 : "+JSONData.manuDate+"<br>"
-													+"가 격 : "+JSONData.price+"<br>"
-													+"등록일 : "+JSONData.regDateString+"<br>"
-													+"</h6>";
-
-								var thisProd = $( "i[id='"+prodNo+"']" );
-								
-								if (thisProd.html() != displayValue) 
-								{
-									$("h6").remove();
-									thisProd.html(displayValue);
-								}
-								else {
-									thisProd.html("");
-								}
-								
-							}
-						}
-				);
-				// ajax end
-			}
-			
 			//==> 무한 스크롤
 			window.addEventListener('scroll', function() {
 				// 스크롤이 바닥에 닿지 않으면 아무것도 안함
@@ -380,13 +323,95 @@
 			        return;
 			    }
 			    
-				
-			    if (!isFetching || hasMore) {
-			    	fetchData();
+				// 
+			    if ( true /* !isFetching || hasMore */ ) {
+			    	//fncGetProductList();
 			    }
 			});
-			
 		});
+			
+		/* 
+		let isFetching = false;
+		let hasMore = true;
+
+		let root = document.getElementById('root');
+
+		async function fetchData() {
+		    isFetching = true;
+		    let response = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}`);
+		    let data = await response.json();
+		    console.log(data);
+
+		    isFetching = false;
+
+		    if (data.length === 0) {
+		        hasMore = false;
+		        return
+		    }
+
+		    for(let post of data) {
+		        let div = document.createElement('div');
+		        div.innerHTML = `<h2>${post.title}</h2><p>${post.body}</p>`
+		        root.appendChild(div);
+		    }
+		    currentPage++;
+		   
+		} */
+		
+		function fetchProductList(formObj) 
+		{
+			console.log(formObj,JSON.stringify(formObj))
+			$.ajax(
+					{
+						url : "/product/json/listProduct",
+						method : "POST" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						data : JSON.stringify(formObj),
+						success : function(JSONData , status) {
+							
+							var totalCount = JSONData.totalCount;
+							var list = JSONData.list;
+							
+							list.forEach( (product) => {
+								
+								var item = $("<div class='item col-xs-4 col-lg-4'>");
+								var thumbnail = $("<div class='thumbnail'>");
+									var img = $("<img class='group list-group-image' src='/product/json/getImageFile/${product.fileName}'/>");
+									var caption = $("<div class='caption'>");
+									var heading = $("<h4 class='group inner list-group-item-heading'>{product.prodName}</h4>");
+									var text = $("<p class='group inner list-group-item-text'>${product.regDate}</p>");
+									var row = $("<div class='row'><div>");
+									var price = $("<div class='col-xs-12 col-md-5'><p class='lead'>${product.price}￦</p></div>");
+									var sold = $("<div class='col-xs-12 col-md-4'></div>");
+										var insold = $("<p class='lead sold-out'>sold out</p>");
+									var open = $("<div class='col-xs-12 col-md-1'></div>");
+		                           		var inopen = $("<a class='btn btn-success></a>");
+		    						var prodNo = $("<input type='hidden' value='${product.prodNo}'>");
+
+								if (${ product.proTranCode == null }) 
+								{
+									caption.addClass("sold-out");
+									insold.html("sold out");
+									inopen.addClass("disabled");
+								}
+								sold.append(insold);
+								open.append(inopen);
+								thumbnail.append(img,caption,heading,text,row,price,sold,open,prodNo);
+								$(".list-group").append(item,thumbnail);
+							});
+							
+						},
+						error: function() {
+							console.log("asd");
+						}
+					}
+			);
+			// ajax end
+		}
 
 </script>
 
@@ -477,7 +502,7 @@
 					</div>
 					
 					<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-					<input type="hidden" id="currentPage" name="currentPage" value=""/>
+					<input type="hidden" id="currentPage" name="currentPage" value="${search.currentPage}"/>
 					
 				</form>
 			</div>
@@ -527,7 +552,7 @@
 		</div>
 		<!-- product list grid view end ////////////////////////// -->
 		
-		
+		<%-- 
 	    <!-- table Start /////////////////////////////////////-->
       	<table class="table table-hover table-striped">
       
@@ -577,7 +602,7 @@
 			
       	</table>
 		<!-- table End ///////////////////////////////////// -->
-		
+		 --%>
 	  
 	</div>
  	<!--  화면구성 div End ///////////////////////////////////// -->

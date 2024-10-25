@@ -120,7 +120,7 @@ public class UserRestController {
 		return userService.checkDuplication(userId);
 	}
 	
-	//==> 검색정보를 받아 상품목록 검색 및 반환
+	//==> 검색정보를 받아 유저목록 검색 및 반환
 	@PostMapping("json/listUser")
 	public Map<String, Object> listUser( @RequestBody Search search ) throws Exception
 	{
