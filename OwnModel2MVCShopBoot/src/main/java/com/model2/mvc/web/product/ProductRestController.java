@@ -47,7 +47,7 @@ public class ProductRestController {
 	{
 		System.out.println("/product/json/getImageFile : GET");
 		
-        return productService.getProductFile(fileName);
-    }
+        	return productService.getProductFile(fileName);
+    	}
 	
 }
